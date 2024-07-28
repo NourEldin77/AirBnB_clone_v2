@@ -1,0 +1,105 @@
+.places{
+    width: 100%;
+    margin-block: auto;
+    font-size: 30px;
+}
+
+
+.places>h1{
+    margin-right: auto;
+}
+.places article{
+    display: inline-block;
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px;
+}
+
+.places>article:nth-of-type(3){
+    display: block;
+    margin-inline: auto;
+}
+
+article>h2{
+    font-size: 30px;
+    margin: 0;
+}
+
+.price_by_night{
+    display: inline-block;
+    min-width: 60px;
+    height: 60px;
+    padding: 20px;
+    font-size: 30px;
+    color: #FF5A5F;
+    border: #FF5A5F 4px solid;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.9;
+    margin: -20px 285px 10px;
+}
+
+.information{
+    height: 80px;
+    border-block: 1px solid #DDDDDD;
+    font-size: 15px;
+    padding-block: 5px 20px;
+    margin-bottom: 25px;
+}
+.information> div{
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    height: 100%;
+    padding-inline: 5px;
+    background-size: 60px;
+}
+
+.max_guest{
+    background: url(../images/icon_group.png) no-repeat center center;
+}
+.max_guest::after{
+    content: "2 Gusets";
+    position: absolute;
+    left: 20%;
+    top: 85%;
+    font-weight: 600;
+}
+.number_rooms{
+    background: url(../images/icon_bed.png) no-repeat center center;
+}
+.number_rooms::after{
+    content: "1 Bedroom";
+    position: absolute;
+    left: 13%;
+    top: 85%;
+    font-weight: 600;
+}
+.number_bathrooms{
+    background: url(../images/icon_bath.png) no-repeat center center;
+}
+
+.number_bathrooms::after{
+    content: "1 Bathrooms";
+    position: absolute;
+    left: 7%;
+    top: 87%;
+    font-weight: 600;
+}
+.user{
+    font-size: 17px;
+    text-align: left;
+}
+.user>span{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+.description{
+    font-size: 16px;
+    margin-block: 15px;
+    text-align: left;
+}
