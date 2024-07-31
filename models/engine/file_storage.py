@@ -10,7 +10,8 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-classes = {"BaseModel": BaseModel, "User": User, "Place": Place, "State": State, "City": City, "Amenity": Amenity, "Review": Review}
+classes = {"BaseModel": BaseModel, "User": User, "Place": Place,
+           "State": State, "City": City, "Amenity": Amenity, "Review": Review}
 
 
 class FileStorage:
@@ -21,21 +22,30 @@ class FileStorage:
     __objects = {}
     __obj_value = {}
     __instance_obj = {}
+
     def __init__(self):
         pass
 
-    def all(self):
+    def all(self, cls=None):
         """  returns the dictionary __objects"""
-        return FileStorage.__objects
+        if cls is None:
+            return self.__objects
+        else:
+            filtered_objs = {}
+            for key, value in self.__objects.items():
+                if cls == value.__class__.__name__ or cls == value.__class__:
+                    filtered_objs[key] = value
+            return filtered_objs
 
     def new(self, obj):
         """ sets in __objects the obj with key <obj class name>.id """
         FileStorage.__objects[
-                f"{obj.__class__.__name__}.{obj.id}"] = obj
+            f"{obj.__class__.__name__}.{obj.id}"] = obj
 
     def save(self):
         """ serializes __objects to the JSON file (path: __file_path) """
-        objects_json = {key: value.to_dict() for key, value in FileStorage.__objects.items()}
+        objects_json = {key: value.to_dict()
+                        for key, value in FileStorage.__objects.items()}
         with open(FileStorage.__file_path, 'w', encoding="utf-8") as file:
             file.write(json.dumps(objects_json))
 
@@ -45,6 +55,17 @@ class FileStorage:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
                 deserialized_obj = json.loads(file.read())
             for key in deserialized_obj.keys():
-                FileStorage.__objects[key] = classes[deserialized_obj[key]["__class__"]](**deserialized_obj[key])
+                FileStorage.__objects[key] = classes[deserialized_obj[key]["__class__"]](
+                    **deserialized_obj[key])
         except FileNotFoundError:
             pass
+
+    def delete(self, obj=None):
+        """ TODO: Doc"""
+        if obj is None:
+            pass
+        else:
+            if self.__objects[f"{obj.__class__.__name__}.{obj.id}"]:
+                del self.__objects[f"{obj.__class__.__name__}.{obj.id}"]
+            else:
+                pass
