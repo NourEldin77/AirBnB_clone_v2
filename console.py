@@ -78,9 +78,9 @@ class HBNBCommand(cmd.Cmd):
                     arg_str = ""
                     for arg in arg_call : arg_str = arg_str + arg + " "
                     arg_str = arg_str.strip()
-                    cmd = custom_arg[0+1:j]
+                    cmd = custom_arg[1:j]
                     arg = custom_cmd + " " + arg_str
-                    func = getattr(self, "do_" + custom_arg[0+1:j])
+                    func = getattr(self, "do_" + custom_arg[1:j])
                     #func(f"{custom_cmd}")
                 except:
                         return super().default(line)
@@ -88,12 +88,10 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """ TODO: document """
+        # create ClassName(arg0) key=vlaue key=value
         try:
             args = arg.split()
-            if len(args) > 1:
-                print ("** too many argumets **")
-                return
-            if not args:
+            if not args or len(arg) < 1:
                 print("** class name missing **")
             else:
                 if args[0] in HBNBCommand.__list_of_class:
@@ -101,8 +99,18 @@ class HBNBCommand(cmd.Cmd):
                     for cls in HBNBCommand.__list_of_class:
                         if cls == args[0]:
                             instance = eval(cls)()
+                    for arg in args[1:]:
+                        param = arg.split("=")
+                        key = param[0]
+                        try:
+                            value = eval(param[1])
+                        except NameError:
+                            print("** invalid param value **")
+                            return
+                        instance.__dict__.update({key: value})
                     instance.save()
                     print(instance.id)
+                    
                 else:
                     print("** class doesn't exist **")
         except ValueError:
@@ -126,7 +134,6 @@ class HBNBCommand(cmd.Cmd):
                 if args[0] not in HBNBCommand.__list_of_class:
                     print("** class doesn't exist **")
                 else:
-                    print(args[1])
                     if f"{args[0]}.{args[1]}" not in storage_objects:
                         print("** no instance found **")
                     else:
@@ -193,7 +200,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class name missing **")
             elif not arg[0]:
                 print("** class name missing **")
-            elif len(args) == 1:
+            elif len(args) < 2:
                 print("** instance id missing **")
             else:
                 if args[0] not in HBNBCommand.__list_of_class:
